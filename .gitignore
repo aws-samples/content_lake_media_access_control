@@ -1,0 +1,50 @@
+
+.DS_Store
+
+*.swp
+package-lock.json
+.pytest_cache
+*.egg-info
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.env.*
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# React scripts recommends .env to be checked in
+!frontend/.env
+
+# CDK Context & Staging files
+.cdk.staging/
+cdk.out/
+
+# React frontend
+frontend/node_modules/
+frontend/build/
+frontend/coverage
+
+frontend/.pnp
+.pnp.js
+
+# testing
+
+# misc
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+

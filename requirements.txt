@@ -1,0 +1,6 @@
+aws-cdk-lib
+constructs
+importlib_metadata
+cdk-nag
+bandit
+crhelper

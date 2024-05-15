@@ -1,0 +1,19 @@
+{
+  "#": "Shot Locker Context Parameters",
+
+  "# config": "Default configuration, use cdk --context config=XYZ to change",
+  "config": "prod",
+
+  "# prod": "Production Parameters",
+  "prod": {
+
+    "# postfix": "Unique Postfix, only letters (required)",
+    "postfix": "",
+
+    "# require_mfa": "Whether to require Cognito User Pool users to requre Multi-Factor Authentication",
+    "require_mfa": false,
+
+    "# run_cdk_nag": "run CDK nag best practices check",
+    "run_cdk_nag": true
+  }
+}
