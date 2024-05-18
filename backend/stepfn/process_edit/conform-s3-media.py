@@ -132,7 +132,7 @@ def lambda_handler(event, context):
             log_entry(edit_id, f'Warning: {clip.name} - Missing Reference, skipping...')
             continue
 
-        basename = os.path.basename(filename)
+        basename = os.path.basename(filename.replace('\\', '/'))
 
         # if the reference is a frame range, look for the first frame of the
         # range to identify the location of the files in the content lake
@@ -192,7 +192,7 @@ def lambda_handler(event, context):
         if not filename:
             continue
 
-        basename = os.path.basename(filename)
+        basename = os.path.basename(filename.replace('\\', '/'))
          
         new_path = media_files[basename]
         if not new_path:
