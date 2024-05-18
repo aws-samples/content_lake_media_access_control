@@ -63,7 +63,7 @@ function DetailsCards({ loadHelpPanelContent, notifyFn }) {
   const onAdded = (locker) => {
     setDisplayAddLocker(false);
     let arr_lockers = lockers || [];
-    setLockers([...arr_lockers, {'id':locker}]);
+    setLockers([...arr_lockers, {'id':locker, 'active':true}]);
   };
 
   const onConfirmActive = () => {
