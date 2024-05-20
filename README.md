@@ -64,7 +64,7 @@ Here is an example of an Amazon S3 Bucket Policy when access is granted to an ed
             "Resource": "arn:aws:s3:::DOC-EXAMPLE-BUCKET/*",
             'Condition': {  
                 "StringLike": { 
-                    "s3:ExistingObjectTag/ShotLockerAccess": "*1234567890*" 
+                    "s3:ExistingObjectTag/ShotLockerAccess": "*t7ory5o5hm*" 
                 }, 
                 "DateLessThan": { 
                     "aws:CurrentTime": "2025-06-15T23:59:59Z" 
