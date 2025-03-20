@@ -6,7 +6,7 @@ from aws_cdk import (
     AssetStaging
 )
 from constructs import Construct
-from typing import List
+from typing import Dict, List, Optional
 import zipfile
 import os
 import shutil
@@ -27,8 +27,9 @@ class PyLayerVersion(aws_lambda.LayerVersion):
         license=None, 
         removal_policy=None
     ) -> None:
+        '''
+        '''
         raise NotImplementedError(f'PyLayerVersion not implemented yet')
-
 
 class BuildPyLayerAsset(Construct):
     def __init__(
@@ -39,7 +40,7 @@ class BuildPyLayerAsset(Construct):
         asset_dir: str,
         pip_install_specifier: List[str],
         *,
-        platform=None
+        platform=None,
     ) -> None:
         '''
         '''
@@ -47,8 +48,6 @@ class BuildPyLayerAsset(Construct):
 
         self.py_runtime = py_runtime
         self.asset_dir = asset_dir
-
-        print(f'Building {id} for platform {platform}' if platform else f'Building {id}')
 
         # build the layer within a docker container. 
         entrypoint = ['/bin/sh', '-c']
@@ -91,6 +90,8 @@ class BuildPyLayerAsset(Construct):
         *,
         platform=None,
     ) -> None:
+        '''
+        '''
         # create the source assets
         asset_dir = BuildPyLayerAsset.build_local_asset_directory(id)
         with open(os.path.join(asset_dir,'requirements.txt'), 'w') as fw:
@@ -123,6 +124,8 @@ class BuildPyLayerAsset(Construct):
         local_module_dirs: List[str],
         py_runtime: aws_lambda.Runtime,
     ) -> None:
+        '''
+        '''
         # check if the modules contain a setup.py file
         for loc_module_dir in local_module_dirs:
             if os.path.isdir(loc_module_dir):
@@ -178,10 +181,14 @@ class BuildPyLayerAsset(Construct):
         if self.py_runtime.to_string()=='python3.9':
             image_name = 'python:3.9.13'
         elif self.py_runtime.to_string()=='python3.11':
-            image_name = 'python:3.11.7'
+            image_name = 'python:3.11.11'
+        elif self.py_runtime.to_string()=='python3.12':
+            image_name = 'python:3.12.8'
+        elif self.py_runtime.to_string()=='python3.13':
+            image_name = 'python:3.13.2'
         else:
             raise ValueError(
-                (f'py_runtime must be aws_lambda.Runtime.[PYTHON_3_9 | PYTHON_3_11]. '
+                (f'py_runtime must be aws_lambda.Runtime.[PYTHON_3_9 | PYTHON_3_11 | PYTHON_3_12 | PYTHON_3_13]. '
                  f'{self.py_runtime.to_string()} passed')
             )
         return image_name
@@ -189,7 +196,7 @@ class BuildPyLayerAsset(Construct):
 
     def get_pyversion(self) -> str:
         '''
-        Returns the python version name (e.g. 3.8) from the python runtime used for the
+        Returns the python version name (e.g. 3.13) from the python runtime used for the
         Lambda layer.
         '''
         pyver_name: str = ''
@@ -197,9 +204,13 @@ class BuildPyLayerAsset(Construct):
             pyver_name = '3.9'
         elif self.py_runtime.to_string()=='python3.11':
             pyver_name = '3.11'
+        elif self.py_runtime.to_string()=='python3.12':
+            pyver_name = '3.12'
+        elif self.py_runtime.to_string()=='python3.13':
+            pyver_name = '3.13'
         else:
             raise ValueError(
-                (f'py_runtime must be aws_lambda.Runtime.[PYTHON_3_9 | PYTHON_3_11]. '
+                (f'py_runtime must be aws_lambda.Runtime.[PYTHON_3_9 | PYTHON_3_11 | PYTHON_3_12 | PYTHON_3_13]. '
                  f'{self.py_runtime.to_string()} passed')
             )
         return pyver_name
@@ -226,7 +237,7 @@ class BuildPyLayerAsset(Construct):
         '''
         cdk_ver = version('aws-cdk-lib')
         cdk_ver = [int(v) for v in cdk_ver.split('.')]
-        if cdk_ver[1] >= 32:
+        if cdk_ver[1]>=32:
             return docker_command
         else:
             return docker_command[0].split(' ')
