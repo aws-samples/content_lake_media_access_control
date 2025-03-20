@@ -34,7 +34,6 @@ def create_cognito_user_pool(stack, *, mfa_required=False):
             require_symbols=True,
             require_uppercase=True,
         ),
-        advanced_security_mode=cognito.AdvancedSecurityMode.ENFORCED,
     )
 
     domain_prefix = "shotlocker" + stack.postfix.lower()
@@ -57,6 +56,10 @@ def create_cognito_user_pool(stack, *, mfa_required=False):
         {
             "id": "AwsSolutions-COG2",
             "reason": "user setting"
+        },
+        {
+            "id": "AwsSolutions-COG3",
+            "reason": "deprecated"
         },
     ])
 
